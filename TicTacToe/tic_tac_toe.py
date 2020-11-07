@@ -34,7 +34,7 @@ class TicTacToeGame():
         print("Input empty cell bewtween 1 and 9")
 
         player_cell = input().strip()
-        match = re.search("\d", player_cell)
+        match = re.search(r"\d", player_cell)
 
         if not match:
             print("Input is not a number, please try again")
