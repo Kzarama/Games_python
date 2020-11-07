@@ -16,35 +16,38 @@ class Snake:
         ]
         self.key = curses.KEY_RIGHT
         self.food = [int(height/2), int(width/2)]
+        self.draw_food()
+        self.move()
 
     def move(self):
         while True:
-            next_key = window.getch()
-            self.key = self.key if next_key == -1 else next_key
+            self.press_key()
 
-            if self.snake[0][0] in [0, height-1] or self.snake[0][1] in [0, width-1] or self.snake[0] in self.snake[1:]:
+            if self.snake[0][0] in [-1, height] or self.snake[0][1] in [-1, width] or self.snake[0] in self.snake[1:]:
                 self.finish_game()
             else:
-                new_head = [self.snake[0][0], self.snake[0][1]]
-
-                if self.key == curses.KEY_DOWN:
-                    new_head[0] += 1
-                if self.key == curses.KEY_UP:
-                    new_head[0] -= 1
-                if self.key == curses.KEY_LEFT:
-                    new_head[1] -= 1
-                if self.key == curses.KEY_RIGHT:
-                    new_head[1] += 1
-
-                self.snake.insert(0, new_head)
-
                 self.draw_snake()
+
+    def press_key(self):
+        next_key = window.getch()
+        self.key = self.key if next_key == -1 else next_key
+
+        new_head = [self.snake[0][0], self.snake[0][1]]
+        if self.key == curses.KEY_DOWN:
+            new_head[0] += 1
+        if self.key == curses.KEY_UP:
+            new_head[0] -= 1
+        if self.key == curses.KEY_LEFT:
+            new_head[1] -= 1
+        if self.key == curses.KEY_RIGHT:
+            new_head[1] += 1
+
+        self.snake.insert(0, new_head)
 
     def draw_snake(self):
         if self.snake[0] == self.food:
             self.draw_food()
         else:
-
             tail = self.snake.pop()
             window.addch(int(tail[0]), int(tail[1]), ' ')
 
@@ -79,5 +82,3 @@ if __name__ == "__main__":
     window.keypad(1)
     window.timeout(100)
     Snake = Snake()
-    Snake.draw_food()
-    Snake.move()
