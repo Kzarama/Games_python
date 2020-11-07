@@ -1,7 +1,7 @@
 import random
 import curses
 import time
-from art import *
+from art import text2art
 
 
 class Snake:

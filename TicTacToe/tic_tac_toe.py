@@ -1,6 +1,6 @@
 import re
 from alpha_beta import mini_max_ab, is_game_over, mini_max
-from art import *
+from art import text2art
 
 
 _PLAYER = "player"
