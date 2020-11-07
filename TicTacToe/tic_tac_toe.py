@@ -1,5 +1,8 @@
 import re
 from alpha_beta import mini_max_ab, is_game_over, mini_max
+from art import *
+
+
 _PLAYER = "player"
 _MACHINE = "machine"
 
@@ -73,6 +76,8 @@ class TicTacToeGame():
 
     def print_result(self):
         if is_game_over(self.board)[1] is None:
-            print('draw')
+            Art = text2art("draw", "random")
+            print(Art)
         else:
-            print(f'{self.winner} wins!')
+            Art = text2art(f'{self.winner} wins', "random")
+            print(Art)
