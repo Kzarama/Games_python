@@ -5,8 +5,18 @@ class TicTacToe():
     def __init__(self):
         self.win = turtle.Screen()
         self.win.setup(700, 700)
-        self.win.tracer(0)
         self.win.title('TicTacToe')
+
+        self.create_game()
+
+        while True:
+            try:
+                self.game()
+            except:
+                break
+
+    def create_game(self):
+        self.win.tracer(0)
         self.win.bgcolor('black')
 
         self.board = turtle.Turtle()
@@ -60,30 +70,30 @@ class TicTacToe():
             self.draw_shape(8, 200, -200)
 
     def draw_shape(self, box, x, y):
-        self.shape = turtle.Turtle()
-        self.shape.speed(None)
-        self.shape.color('green')
-        self.shape.ht()
-        self.shape.pensize(10)
-        self.shape.penup()
+        shape = turtle.Turtle()
+        shape.speed(None)
+        shape.color('green')
+        shape.ht()
+        shape.pensize(10)
+        shape.penup()
         self.pieces_board[box] = self.turn
         if self.turn == 'x':
-            self.shape.goto(x-75, y+75)
-            self.shape.pendown()
-            self.shape.right(45)
-            self.shape.forward(212)
-            self.shape.penup()
-            self.shape.goto(x+75, y+75)
-            self.shape.pendown()
-            self.shape.right(90)
-            self.shape.forward(212)
-            self.shape.penup()
+            shape.goto(x-75, y+75)
+            shape.pendown()
+            shape.right(45)
+            shape.forward(212)
+            shape.penup()
+            shape.goto(x+75, y+75)
+            shape.pendown()
+            shape.right(90)
+            shape.forward(212)
+            shape.penup()
             self.turn = 'o'
         else:
-            self.shape.goto(x, y-75)
-            self.shape.pendown()
-            self.shape.circle(75)
-            self.shape.penup()
+            shape.goto(x, y-75)
+            shape.pendown()
+            shape.circle(75)
+            shape.penup()
             self.turn = 'x'
         self.game_over()
 
@@ -108,24 +118,31 @@ class TicTacToe():
         elif self.pieces_board[6] == self.pieces_board[7] == self.pieces_board[8] and self.pieces_board[6] != None and self.pieces_board[7] != None and self.pieces_board[8] != None:
             self.is_game_over = True
 
+    def reset_game(self, x, y):
+        self.win.clear()
+        self.create_game()
+
     def game(self):
         if not self.is_game_over:
             self.win.update()
+            self.win.onscreenclick(None, 3)
             self.win.onscreenclick(self.set_move, 1)
         else:
             self.winner = 'x' if self.turn == 'o' else 'o'
             show_winner = turtle.Turtle()
+            show_winner.ht()
             show_winner.pencolor('white')
             show_winner.write(f'{self.winner} wins!'.upper(),
                               font=('verdana', 100), align='center')
-            self.win.exitonclick()
-            turtle.done()
+            show_winner_aux = turtle.Turtle()
+            show_winner_aux.ht()
+            show_winner_aux.goto(0, -50)
+            show_winner_aux.pencolor('cyan')
+            show_winner_aux.write('right click to play again'.upper(),
+                                  font=('verdana', 30), align='center')
+            self.win.onscreenclick(None, 1)
+            self.win.onscreenclick(self.reset_game, 3)
 
 
 if __name__ == '__main__':
     ttc = TicTacToe()
-    try:
-        while True:
-            ttc.game()
-    except:
-        pass
